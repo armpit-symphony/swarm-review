@@ -366,6 +366,45 @@ Bootstrap now checks:
 - warns if `node` / `puppeteer` missing
 - validates `configs/scope.json`
 
+## 🔒 Safety & Consent
+
+- [Operator Safety & Consent Policy](./docs/OPERATOR_SAFETY_AND_CONSENT.md) — **Required reading** before running any production scans.
+
+## 📋 Product Contract (scan interface)
+
+This defines the **sellable spec** — any run that doesn't meet these requirements is not a valid product run.
+
+### Operators must use: `./bugbounty-swarm scan`
+
+The `scan` command is the **only stable interface** for production runs.
+
+- **Exploratory is default** — safe, read-only checks (TLS, headers, cookies, passive recon)
+- **Deep mode consent** requires ALL of:
+  - Consent file at `<out>/consent/<target>.txt` with:
+    - Target identifier
+    - Consenting party contact
+    - Allowed techniques + time window
+    - "permission granted" statement + date
+  - Matching `--consent-token` argument at runtime
+
+### Required artifacts under `--out`:
+
+| File | Description |
+|------|-------------|
+| `findings.json` | Structured vulnerability findings |
+| `disclosure_email.md` | Draft disclosure email (human review required) |
+| `run.log` | Full execution log |
+
+### run.log first event:
+
+```
+AUTHZ_ENFORCED policy_sha256=<hash> target=<target> mode=<exploratory|deep>
+```
+
+This audit trail is **mandatory** for product-grade runs.
+
+---
+
 ## 🔒 Safety & Ethics
 
 > **⚠️ WARNING: For authorized testing only**
