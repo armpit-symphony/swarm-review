@@ -73,6 +73,96 @@ python3 swarm_orchestrator.py example.com
 python3 vuln_scanner_orchestrator.py https://example.com
 ```
 
+### Operator Quickstart (Scan + Draft)
+
+Authorized targets only. The workflow is:
+authorized exploration -> structured findings -> draft disclosure -> human review/send -> consented deep dive.
+
+```bash
+cd /home/sparky/bugbounty-swarm
+
+# Exploratory mode (default; safe checks only)
+./bugbounty-swarm scan \
+  --target example.com \
+  --auth ./policy.yml \
+  --scope ./configs/scope.json \
+  --out ./artifacts/$(date -u +%Y%m%d_%H%M%S)
+```
+
+Outputs in `--out`:
+- `findings.json` (stable finding schema)
+- `disclosure_email.md` (draft only; human must review before sending)
+- `run.log` (phase start/stop events + durations)
+- default behavior enforces `--no-legacy-output` (fails if anything writes outside `--out`)
+
+### Consent Gate For Deep Dive
+
+Deep mode requires both:
+1. `--consent-token <token>`
+2. Signed consent file at `<out>/consent/<target>.txt` containing that token
+
+```bash
+RUN_DIR=./artifacts/$(date -u +%Y%m%d_%H%M%S)
+mkdir -p "$RUN_DIR/consent"
+printf "Authorized deep testing for example.com\nTOKEN: abc123\n" > "$RUN_DIR/consent/example.com.txt"
+
+./bugbounty-swarm scan \
+  --target example.com \
+  --auth ./policy.yml \
+  --scope ./configs/scope.json \
+  --mode deep \
+  --consent-token abc123 \
+  --out "$RUN_DIR"
+```
+
+Optional external adapter (off by default):
+
+```bash
+export SHANNON_BIN=/path/to/shannon
+./bugbounty-swarm scan --target example.com --auth ./policy.yml --scope ./configs/scope.json --use-shannon
+```
+
+### Doctor (Preflight)
+
+Run local preflight validation before scanning. `doctor` does not run vulnerability probes and should not perform network scanning.
+
+```bash
+./bugbounty-swarm doctor \
+  --target example.com \
+  --auth ./policy.yml \
+  --scope ./configs/scope.json \
+  --out ./artifacts/preflight
+```
+
+Deep-mode preflight:
+
+```bash
+RUN_DIR=./artifacts/preflight_deep
+mkdir -p "$RUN_DIR/consent"
+printf "TOKEN: abc123\n" > "$RUN_DIR/consent/example.com.txt"
+
+./bugbounty-swarm doctor \
+  --target example.com \
+  --auth ./policy.yml \
+  --scope ./configs/scope.json \
+  --out "$RUN_DIR" \
+  --deep \
+  --consent-token abc123
+```
+
+Exit codes:
+- `0`: ready to run `scan`
+- `2`: configuration error (actionable message printed)
+
+### Versioning
+
+```bash
+./bugbounty-swarm --version
+```
+
+Output format:
+- `bugbounty-swarm vX.Y.Z (commit <shortsha|unknown>)`
+
 ### API Configuration
 
 The swarm works **free by default**. Set API keys to enable enhanced features:

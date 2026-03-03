@@ -150,7 +150,8 @@ const {{ chromium }} = require('puppeteer');
     await browser.close();
 }})();
 """
-        script_path = f"/tmp/screenshot_{name}.js"
+        safe_name = re.sub(r"[^A-Za-z0-9._-]+", "_", name).strip("_") or "shot"
+        script_path = f"{SCREENSHOT_DIR}/_script_{safe_name}.js"
         
         try:
             with open(script_path, "w") as f:

@@ -34,6 +34,7 @@ def triage_findings(findings: list[dict]) -> list[dict]:
         f["confidence"] = _score(f)
         triaged.append(f)
     assign_vuln_ids(triaged)
+    enforce_no_proof_no_report(triaged)
     return triaged
 
 
@@ -62,3 +63,34 @@ def _score(finding: dict) -> float:
     if indicators:
         base += 0.1
     return min(base, 0.99)
+
+
+def _has_evidence(finding: dict) -> bool:
+    evidence = finding.get("evidence") or []
+    if isinstance(evidence, list) and evidence:
+        return True
+
+    indicators = finding.get("indicators") or []
+    if isinstance(indicators, list) and indicators:
+        return True
+
+    if finding.get("repro_steps") or finding.get("reproduction_steps"):
+        return True
+    if finding.get("header_evidence"):
+        return True
+    if finding.get("screenshot") or finding.get("screenshot_artifact"):
+        return True
+    if finding.get("raw_http") or finding.get("request_excerpt") or finding.get("response_excerpt"):
+        return True
+    if finding.get("tool_output_ref"):
+        return True
+    return False
+
+
+def enforce_no_proof_no_report(findings: list[dict]) -> None:
+    """Demote HIGH/CRITICAL findings without evidence to INFO."""
+    for finding in findings:
+        severity = str(finding.get("severity", "MEDIUM")).upper()
+        if severity in {"HIGH", "CRITICAL"} and not _has_evidence(finding):
+            finding["severity"] = "INFO"
+            finding["verification_status"] = "Needs Verification"
