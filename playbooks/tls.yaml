@@ -1,0 +1,49 @@
+name: TLS/Transport Security
+type: tls
+description: >
+  Validate TLS configuration including protocol versions, cipher strength,
+  certificate validity, HSTS enforcement, and HTTP→HTTPS redirect.
+severity: HIGH
+cvss_range: 3.1-7.5
+cwe:
+  - CWE-326  # Inadequate Encryption Strength
+  - CWE-295  # Improper Certificate Validation
+  - CWE-319  # Cleartext Transmission of Sensitive Information
+
+steps:
+  - check_http_to_https_redirect:
+      description: Verify plain HTTP redirects to HTTPS (301 preferred).
+      tool: requests.get(http_url, allow_redirects=False)
+      expect: status 301, Location starts with https://
+
+  - check_tls_version:
+      description: Confirm server negotiates TLS 1.2 or 1.3 only.
+      tool: ssl.wrap_socket / openssl s_client
+      expect: TLSv1.2 or TLSv1.3; FAIL if SSLv2/3 or TLS 1.0/1.1 accepted
+
+  - check_cipher_strength:
+      description: Verify cipher suite does not include RC4, DES, NULL, EXPORT, ANON.
+      tool: ssl.SSLSocket.cipher()
+      expect: ECDHE+AES-GCM or ChaCha20-Poly1305
+
+  - check_cert_expiry:
+      description: Check certificate notAfter date; warn if ≤30 days; fail if expired.
+      tool: ssl.SSLSocket.getpeercert()
+      expect: days_remaining > 30
+
+  - check_hsts:
+      description: Verify Strict-Transport-Security header with sufficient max-age.
+      tool: requests.get(https_url).headers
+      expect: "max-age >= 15552000; includeSubDomains present"
+
+evidence:
+  - tls_scanner JSON output
+  - ssl.SSLSocket.version() + cipher() output
+  - Certificate notAfter date
+  - HTTP response headers (HSTS value)
+
+disclosure_template: |
+  TLS misconfiguration identified on {url}.
+  Issue: {issue}
+  Detail: {detail}
+  Remediation: {remediation}

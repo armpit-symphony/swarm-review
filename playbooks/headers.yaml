@@ -1,0 +1,55 @@
+name: HTTP Security Headers
+type: headers
+description: >
+  Verify presence and correctness of HTTP security response headers:
+  Content-Security-Policy, X-Frame-Options, X-Content-Type-Options,
+  Referrer-Policy, and Permissions-Policy.
+severity: MEDIUM
+cvss_range: 2.0-6.1
+cwe:
+  - CWE-693  # Protection Mechanism Failure
+  - CWE-1021 # Improper Restriction of Rendered UI Layers (Clickjacking)
+  - CWE-116  # Improper Encoding / Neutralization of Output (CSP)
+
+steps:
+  - fetch_response_headers:
+      description: GET the target URL and capture all response headers.
+      tool: requests.get(url)
+      expect: 200 or 30x response
+
+  - check_csp:
+      description: >
+        Verify Content-Security-Policy is present and does not contain
+        unsafe-inline, unsafe-eval, or wildcard (*) sources.
+      expect: "CSP present; no unsafe-inline/eval; no wildcard"
+
+  - check_xfo:
+      description: Verify X-Frame-Options is DENY or SAMEORIGIN.
+      expect: "X-Frame-Options: DENY or SAMEORIGIN"
+
+  - check_xcto:
+      description: Verify X-Content-Type-Options is nosniff.
+      expect: "X-Content-Type-Options: nosniff"
+
+  - check_referrer_policy:
+      description: Verify Referrer-Policy is set to a privacy-preserving value.
+      expect: "strict-origin-when-cross-origin or no-referrer"
+
+  - check_permissions_policy:
+      description: Verify Permissions-Policy restricts camera, mic, geolocation, payment.
+      expect: "Permissions-Policy header present"
+
+  - check_server_disclosure:
+      description: Flag Server or X-Powered-By headers that expose version numbers.
+      expect: "No version strings in Server/X-Powered-By"
+
+evidence:
+  - headers_scanner JSON output
+  - Full response header dump
+  - Missing/weak header list
+
+disclosure_template: |
+  Missing or misconfigured security header on {url}.
+  Issue: {issue}
+  Detail: {detail}
+  Remediation: {remediation}

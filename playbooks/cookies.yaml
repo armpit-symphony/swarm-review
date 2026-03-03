@@ -1,0 +1,50 @@
+name: Cookie Security
+type: cookies
+description: >
+  Audit Set-Cookie headers for security flags: Secure, HttpOnly, SameSite.
+  Detect session and authentication cookies and verify they have the strongest
+  applicable flag combination.
+severity: MEDIUM
+cvss_range: 3.1-6.8
+cwe:
+  - CWE-614  # Sensitive Cookie Without Secure Attribute
+  - CWE-1004 # Sensitive Cookie Without HttpOnly Flag
+  - CWE-352  # Cross-Site Request Forgery (SameSite missing)
+
+steps:
+  - fetch_set_cookie_headers:
+      description: GET the target URL and collect all Set-Cookie response headers.
+      tool: requests.get(url)
+      expect: Set-Cookie headers captured
+
+  - identify_session_cookies:
+      description: Flag cookies whose names match session/auth patterns (sess, token, sid, jwt, etc.).
+      expect: Session cookies identified for stricter checking
+
+  - check_secure_flag:
+      description: Verify Secure flag is present on all cookies (critical for session cookies).
+      expect: "Secure attribute present"
+
+  - check_httponly_flag:
+      description: Verify HttpOnly flag is present to prevent JavaScript access.
+      expect: "HttpOnly attribute present"
+
+  - check_samesite:
+      description: Verify SameSite=Strict or SameSite=Lax is set; flag SameSite=None on session cookies.
+      expect: "SameSite=Strict or Lax"
+
+  - check_samesite_none_requires_secure:
+      description: If SameSite=None is used, confirm Secure flag is also present (browser requirement).
+      expect: "SameSite=None always paired with Secure"
+
+evidence:
+  - cookies_scanner JSON output
+  - Raw Set-Cookie header values
+  - Cookie name list with flag analysis
+
+disclosure_template: |
+  Insecure cookie configuration identified on {url}.
+  Cookie: {indicators}
+  Issue: {issue}
+  Detail: {detail}
+  Remediation: {remediation}

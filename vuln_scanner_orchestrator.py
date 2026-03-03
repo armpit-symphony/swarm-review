@@ -22,6 +22,9 @@ from agents.vuln_scanners.sqli_scanner import SQLiScanner
 from agents.vuln_scanners.idor_scanner import IDORScanner
 from agents.vuln_scanners.ssrf_scanner import SSRFScanner
 from agents.vuln_scanners.auth_scanner import AuthScanner
+from agents.vuln_scanners.tls_scanner import TLSScanner
+from agents.vuln_scanners.headers_scanner import HeadersScanner
+from agents.vuln_scanners.cookies_scanner import CookiesScanner
 from core.scope import ScopeConfig, require_in_scope, require_authorized, default_scope_path
 from core.auth_policy import require_auth_policy, default_policy_path
 from core.report import write_json, write_markdown, write_html
@@ -32,6 +35,7 @@ from core.openclaw_report import write_report as write_schema_report
 from core.playbooks import load_all_playbooks
 from core.tech_router import route_playbooks
 from agents.triage_agent import triage_findings
+from core.disclosure_formatter import write_disclosure_email
 from scripts.package_evidence import package as package_evidence
 
 OUTPUT_DIR = os.getenv("SWARM_OUTPUT_DIR") or str(Path(__file__).parent / "output")
@@ -70,9 +74,9 @@ class VulnScannerOrchestrator:
 
         forms = self.crawl_data.get("forms", [])
         endpoints = self.crawl_data.get("endpoints", [])
-        
+
         # XSS Scanner
-        print("\n[1/5] XSS Scanner...")
+        print("\n[1/8] XSS Scanner...")
         try:
             xss = XSSScanner(self.target, forms, endpoints)
             xss_results = xss.scan()
@@ -82,7 +86,7 @@ class VulnScannerOrchestrator:
             print(f"   ❌ XSS failed: {e}")
         
         # SQLi Scanner
-        print("\n[2/5] SQLi Scanner...")
+        print("\n[2/8] SQLi Scanner...")
         try:
             sqli = SQLiScanner(self.target, forms, endpoints)
             sqli_results = sqli.scan()
@@ -92,7 +96,7 @@ class VulnScannerOrchestrator:
             print(f"   ❌ SQLi failed: {e}")
         
         # IDOR Scanner
-        print("\n[3/5] IDOR Scanner...")
+        print("\n[3/8] IDOR Scanner...")
         try:
             idor = IDORScanner(self.target)
             idor_results = idor.scan()
@@ -102,7 +106,7 @@ class VulnScannerOrchestrator:
             print(f"   ❌ IDOR failed: {e}")
         
         # SSRF Scanner
-        print("\n[4/5] SSRF Scanner...")
+        print("\n[4/8] SSRF Scanner...")
         try:
             ssrf = SSRFScanner(self.target, endpoints)
             ssrf_results = ssrf.scan()
@@ -112,7 +116,7 @@ class VulnScannerOrchestrator:
             print(f"   ❌ SSRF failed: {e}")
         
         # Auth Scanner
-        print("\n[5/5] Auth Scanner...")
+        print("\n[5/8] Auth Scanner...")
         try:
             auth = AuthScanner(self.target)
             auth_results = auth.scan()
@@ -120,7 +124,37 @@ class VulnScannerOrchestrator:
             self.count_findings(auth_results)
         except Exception as e:
             print(f"   ❌ Auth failed: {e}")
-        
+
+        # TLS Scanner
+        print("\n[6/8] TLS Scanner...")
+        try:
+            tls = TLSScanner(self.target)
+            tls_results = tls.scan()
+            self.results["scans"]["tls"] = tls_results
+            self.count_findings(tls_results)
+        except Exception as e:
+            print(f"   ❌ TLS failed: {e}")
+
+        # Headers Scanner
+        print("\n[7/8] Headers Scanner...")
+        try:
+            headers = HeadersScanner(self.target)
+            headers_results = headers.scan()
+            self.results["scans"]["headers"] = headers_results
+            self.count_findings(headers_results)
+        except Exception as e:
+            print(f"   ❌ Headers failed: {e}")
+
+        # Cookies Scanner
+        print("\n[8/8] Cookies Scanner...")
+        try:
+            cookies = CookiesScanner(self.target)
+            cookies_results = cookies.scan()
+            self.results["scans"]["cookies"] = cookies_results
+            self.count_findings(cookies_results)
+        except Exception as e:
+            print(f"   ❌ Cookies failed: {e}")
+
         # Triage + de-dupe
         all_findings = []
         for _, findings in self.results["scans"].items():
@@ -183,6 +217,16 @@ class VulnScannerOrchestrator:
         print(f"\n💾 Report: {json_path}")
         print(f"📝 Markdown: {md_path}")
         print(f"🌐 HTML: {html_path}")
+
+        # Write disclosure email draft if there are findings
+        triaged = self.results.get("triaged_findings", [])
+        if triaged:
+            email_path = str(Path(self.output_dir) / f"disclosure_draft_{slug}_{stamp}.txt")
+            write_disclosure_email(email_path, self.target, triaged)
+            print(f"📧 Disclosure draft: {email_path}")
+        else:
+            email_path = None
+
         return json_path, md_path, html_path
 
     def _write_findings_schema(self):
