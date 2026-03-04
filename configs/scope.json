@@ -1,5 +1,5 @@
 {
-  "domains": [],
+  "domains": ["sparkpitlabs.com", "www.sparkpitlabs.com"],
   "ips": [],
-  "notes": "Add domains or IPs you are explicitly authorized to test. Subdomains are allowed."
+  "notes": "Test target - Phil's domain"
 }
