@@ -434,7 +434,7 @@ The dashboard includes:
 
 ## 📎 Operator Sheet
 
-See `OPERATOR_SHEET.md` for a one-page runbook.
+See `docs/OPERATIONS.md` for the merged runbook, safety policy, validation checklist, and work-order logbook.
 
 ## 🧩 Self-Install (Agent)
 
@@ -458,7 +458,7 @@ Bootstrap now checks:
 
 ## 🔒 Safety & Consent
 
-- [Operator Safety & Consent Policy](./docs/OPERATOR_SAFETY_AND_CONSENT.md) — **Required reading** before running any production scans.
+- [Operations Doc (includes Safety & Consent)](./docs/OPERATIONS.md) - **Required reading** before running any production scans.
 
 ## 📋 Product Contract (scan interface)
 
@@ -517,3 +517,4 @@ MIT License - See [LICENSE](LICENSE) for details.
 ---
 
 **Note:** This project follows the methodology from [First-Bounty](https://github.com/BehiSecc/First-Bounty) - the beginner-friendly bug bounty roadmap.
+

@@ -12,6 +12,7 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 from core.auth_policy import default_policy_path, require_auth_policy, validate_policy_schema
 from core.disclosure_formatter import write_disclosure_email
@@ -44,8 +45,20 @@ def _normalize_target(raw: str, scheme: str | None = None) -> str:
     return f"{chosen}://{raw}"
 
 
+def _consent_target_id(target: str) -> str:
+    value = (target or "").strip()
+    if not value:
+        return ""
+    parsed = urlparse(value if "://" in value else f"//{value}")
+    host = parsed.hostname or value.split("/")[0].split(":")[0]
+    return host.strip().lower().rstrip(".")
+
+
 def _consent_file_path(out_dir: str, target: str) -> Path:
-    return Path(out_dir).resolve() / "consent" / f"{_safe_slug(target)}.txt"
+    consent_id = _consent_target_id(target)
+    if not consent_id:
+        consent_id = target
+    return Path(out_dir).resolve() / "consent" / f"{_safe_slug(consent_id)}.txt"
 
 
 def _policy_sha256(path: str) -> str:

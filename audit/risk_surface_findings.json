@@ -1,0 +1,1307 @@
+{
+    "count":  217,
+    "findings":  [
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_logbook_handoff.md",
+                         "line":  45,
+                         "snippet":  "- Add/verify CodeQL, secret scanning, dependency review, pinned actions, least-privilege workflow permissions."
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  53,
+                         "snippet":  "with open(path, \"rb\") as f:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  96,
+                         "snippet":  "def _enforce_deep_consent(mode: str, consent_token: str, out_dir: str, target: str) -\u003e None:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  99,
+                         "snippet":  "if not consent_token:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  100,
+                         "snippet":  "raise SystemExit(\"deep mode requires --consent-token\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  105,
+                         "snippet":  "if consent_token not in text:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  107,
+                         "snippet":  "f\"consent token mismatch: token not found in {consent_file}\""
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  148,
+                         "snippet":  "with open(scope_path, \"r\", encoding=\"utf-8\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  160,
+                         "snippet":  "with open(policy_path, \"r\", encoding=\"utf-8\") as f:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  177,
+                         "snippet":  "consent_token: str,"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  262,
+                         "snippet":  "if not consent_token:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  263,
+                         "snippet":  "return _doctor_error(\"--deep requires --consent-token\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  265,
+                         "snippet":  "_enforce_deep_consent(\"deep\", consent_token, str(out), target)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  284,
+                         "snippet":  "consent_token: str,"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  315,
+                         "snippet":  "_enforce_deep_consent(mode, consent_token, out_dir, target)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  484,
+                         "snippet":  "\"    printf \\\"TOKEN: abc123\\\\n\\\" \u003e \\\"$RUN/consent/example.com.txt\\\" \u0026\u0026 \\\\\\n\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  486,
+                         "snippet":  "\"      --mode deep --consent-token abc123 --out \\\"$RUN\\\"\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  494,
+                         "snippet":  "scan.add_argument(\"--consent-token\", default=\"\", help=\"Required for deep mode; must match token in --out/consent/\u003ctarget\u003e.txt\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  518,
+                         "snippet":  "\"  bugbounty-swarm doctor --target example.com --auth ./policy.yml --scope ./configs/scope.json --out ./artifacts/preflight --deep --consent-token abc123\\n\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  527,
+                         "snippet":  "doctor.add_argument(\"--consent-token\", default=\"\", help=\"Required when --deep is used\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  543,
+                         "snippet":  "consent_token=args.consent_token,"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "bugbounty_swarm_cli.py",
+                         "line":  557,
+                         "snippet":  "consent_token=args.consent_token,"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  30,
+                         "snippet":  "- **Authentication** - Login, password reset, sessions"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  101,
+                         "snippet":  "1. `--consent-token \u003ctoken\u003e`"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  102,
+                         "snippet":  "2. Signed consent file at `\u003cout\u003e/consent/\u003ctarget\u003e.txt` containing that token"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  107,
+                         "snippet":  "printf \"Authorized deep testing for example.com\\nTOKEN: abc123\\n\" \u003e \"$RUN_DIR/consent/example.com.txt\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  114,
+                         "snippet":  "--consent-token abc123 \\"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  142,
+                         "snippet":  "printf \"TOKEN: abc123\\n\" \u003e \"$RUN_DIR/consent/example.com.txt\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  150,
+                         "snippet":  "--consent-token abc123"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  172,
+                         "snippet":  "export SHODAN_API_KEY=your_key"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  173,
+                         "snippet":  "export CENSYS_API_KEY=your_key"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  174,
+                         "snippet":  "export CENSYS_API_SECRET=your_secret"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  175,
+                         "snippet":  "export VIRUSTOTAL_API_KEY=your_key"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  176,
+                         "snippet":  "export GITHUB_TOKEN=your_token"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "README.md",
+                         "line":  478,
+                         "snippet":  "- Matching `--consent-token` argument at runtime"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "swarm_orchestrator.py",
+                         "line":  15,
+                         "snippet":  "import subprocess"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "swarm_orchestrator.py",
+                         "line":  453,
+                         "snippet":  "with open(args.summary_json, \"w\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "vuln_scanner_orchestrator.py",
+                         "line":  411,
+                         "snippet":  "with open(args.summary_json, \"w\") as f:"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  10,
+                         "snippet":  "import subprocess"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  15,
+                         "snippet":  "from urllib.parse import urljoin, urlparse"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  74,
+                         "snippet":  "baseline = requests.get(url, timeout=10, headers={"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  78,
+                         "snippet":  "resp = requests.get(url, timeout=10, headers={"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  157,
+                         "snippet":  "with open(script_path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  158,
+                         "snippet":  "f.write(puppeteer_script)"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  160,
+                         "snippet":  "result = subprocess.run("
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  185,
+                         "snippet":  "\"\"\"Analyze JavaScript files for endpoints/secrets\"\"\""
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  193,
+                         "snippet":  "resp = requests.get(js_url, timeout=5)"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/crawl_agent.py",
+                         "line":  223,
+                         "snippet":  "with open(filename, \"w\") as f:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/enrichment_agent.py",
+                         "line":  19,
+                         "snippet":  "VIRUSTOTAL_KEY = os.environ.get(\"VIRUSTOTAL_API_KEY\", \"\")"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/enrichment_agent.py",
+                         "line":  40,
+                         "snippet":  "resp = requests.get(url, timeout=10)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/enrichment_agent.py",
+                         "line":  75,
+                         "snippet":  "resp = requests.get(url, headers=headers, timeout=10)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/enrichment_agent.py",
+                         "line":  107,
+                         "snippet":  "resp = requests.get(url, headers=headers, timeout=10)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/enrichment_agent.py",
+                         "line":  131,
+                         "snippet":  "resp = requests.get(url, timeout=10)"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/enrichment_agent.py",
+                         "line":  176,
+                         "snippet":  "with open(filename, \"w\") as f:"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "agents/recon_agent.py",
+                         "line":  10,
+                         "snippet":  "import subprocess"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/recon_agent.py",
+                         "line":  21,
+                         "snippet":  "SHODAN_KEY = os.environ.get(\"SHODAN_API_KEY\", \"\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/recon_agent.py",
+                         "line":  22,
+                         "snippet":  "CENSYS_API_KEY = os.environ.get(\"CENSYS_API_KEY\", \"\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/recon_agent.py",
+                         "line":  23,
+                         "snippet":  "CENSYS_SECRET = os.environ.get(\"CENSYS_API_SECRET\", \"\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/recon_agent.py",
+                         "line":  55,
+                         "snippet":  "if CENSYS_API_KEY:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/recon_agent.py",
+                         "line":  70,
+                         "snippet":  "ip = socket.gethostbyname(self.target)"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "agents/recon_agent.py",
+                         "line":  81,
+                         "snippet":  "result = subprocess.run("
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/recon_agent.py",
+                         "line":  99,
+                         "snippet":  "baseline = requests.get(url, params=params, timeout=10)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/recon_agent.py",
+                         "line":  101,
+                         "snippet":  "resp = requests.get(url, params=params, timeout=10)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/recon_agent.py",
+                         "line":  126,
+                         "snippet":  "auth = (CENSYS_API_KEY, CENSYS_SECRET)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/recon_agent.py",
+                         "line":  128,
+                         "snippet":  "baseline = requests.get(url, params=params, auth=auth, timeout=10)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/recon_agent.py",
+                         "line":  130,
+                         "snippet":  "resp = requests.get(url, params=params, auth=auth, timeout=10)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/recon_agent.py",
+                         "line":  150,
+                         "snippet":  "baseline = requests.get(url, timeout=15)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/recon_agent.py",
+                         "line":  152,
+                         "snippet":  "resp = requests.get(url, timeout=15)"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/recon_agent.py",
+                         "line":  173,
+                         "snippet":  "with open(filename, \"w\") as f:"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "agents/adapters/shannon_adapter.py",
+                         "line":  11,
+                         "snippet":  "import subprocess"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "agents/adapters/shannon_adapter.py",
+                         "line":  26,
+                         "snippet":  "proc = subprocess.run(cmd, capture_output=True, text=True, check=False)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  12,
+                         "snippet":  "from urllib.parse import urljoin"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  24,
+                         "snippet":  "self.session = requests.Session()"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  36,
+                         "snippet":  "# Check for password reset"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  37,
+                         "snippet":  "self.check_password_reset()"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  70,
+                         "snippet":  "# Weak password policy"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  71,
+                         "snippet":  "if \"password\" in resp.text.lower():"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  73,
+                         "snippet":  "issues.append(\"no_min_password_length\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  90,
+                         "snippet":  "def check_password_reset(self):"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  91,
+                         "snippet":  "\"\"\"Check password reset flow\"\"\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  92,
+                         "snippet":  "reset_indicators = [\"/reset\", \"/forgot\", \"/password-reset\", \"/lost-password\"]"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  104,
+                         "snippet":  "# Token in URL (predictable)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  105,
+                         "snippet":  "if \"?\" in url and \"token\" in url.lower():"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  106,
+                         "snippet":  "issues.append(\"token_in_url\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  115,
+                         "snippet":  "\"issue\": \"password_reset_issues\","
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  122,
+                         "snippet":  "print(f\"      ⚠️ Password reset issues: {url}\")"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  193,
+                         "snippet":  "s1 = requests.Session()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  194,
+                         "snippet":  "s2 = requests.Session()"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/vuln_scanners/auth_scanner.py",
+                         "line":  225,
+                         "snippet":  "with open(filename, \"w\") as f:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/cookies_scanner.py",
+                         "line":  16,
+                         "snippet":  "from urllib.parse import urlparse"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/cookies_scanner.py",
+                         "line":  28,
+                         "snippet":  "r\"(sess|session|auth|token|jwt|sid|user_?id|remember|logged|csrftoken|xsrf)\","
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/cookies_scanner.py",
+                         "line":  40,
+                         "snippet":  "self.session = requests.Session()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/cookies_scanner.py",
+                         "line":  187,
+                         "snippet":  "\"allowing cross-site requests. Verify this is intentional.\""
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/vuln_scanners/cookies_scanner.py",
+                         "line":  226,
+                         "snippet":  "with open(path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/headers_scanner.py",
+                         "line":  16,
+                         "snippet":  "from urllib.parse import urlparse"
+                     },
+                     {
+                         "category":  "dynamic_eval",
+                         "path":  "agents/vuln_scanners/headers_scanner.py",
+                         "line":  101,
+                         "snippet":  "\"\u0027unsafe-eval\u0027 in CSP allows eval() and similar dangerous functions.\","
+                     },
+                     {
+                         "category":  "dynamic_eval",
+                         "path":  "agents/vuln_scanners/headers_scanner.py",
+                         "line":  102,
+                         "snippet":  "\"Remove \u0027unsafe-eval\u0027. Refactor code to avoid eval().\"),"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/headers_scanner.py",
+                         "line":  124,
+                         "snippet":  "self.session = requests.Session()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/headers_scanner.py",
+                         "line":  212,
+                         "snippet":  "detail=f\"Referrer-Policy value {policy!r} may leak URL data to cross-origin requests.\","
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/vuln_scanners/headers_scanner.py",
+                         "line":  263,
+                         "snippet":  "with open(path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/idor_scanner.py",
+                         "line":  12,
+                         "snippet":  "from urllib.parse import urljoin, urlparse"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/idor_scanner.py",
+                         "line":  24,
+                         "snippet":  "self.session = requests.Session()"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "agents/vuln_scanners/idor_scanner.py",
+                         "line":  106,
+                         "snippet":  "sensitive = [\"email\", \"password\", \"address\", \"phone\", \"credit\","
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/vuln_scanners/idor_scanner.py",
+                         "line":  153,
+                         "snippet":  "with open(filename, \"w\") as f:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/sqli_scanner.py",
+                         "line":  12,
+                         "snippet":  "from urllib.parse import urljoin, urlparse, parse_qs"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/sqli_scanner.py",
+                         "line":  26,
+                         "snippet":  "self.session = requests.Session()"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/vuln_scanners/sqli_scanner.py",
+                         "line":  190,
+                         "snippet":  "with open(filename, \"w\") as f:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/ssrf_scanner.py",
+                         "line":  12,
+                         "snippet":  "from urllib.parse import urljoin, urlparse, parse_qs"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/ssrf_scanner.py",
+                         "line":  25,
+                         "snippet":  "self.session = requests.Session()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/ssrf_scanner.py",
+                         "line":  113,
+                         "snippet":  "except requests.exceptions.Timeout:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/vuln_scanners/ssrf_scanner.py",
+                         "line":  155,
+                         "snippet":  "with open(filename, \"w\") as f:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  18,
+                         "snippet":  "from urllib.parse import urlparse"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  21,
+                         "snippet":  "from requests.exceptions import SSLError, ConnectionError as ReqConnError"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  49,
+                         "snippet":  "self.session = requests.Session()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  117,
+                         "snippet":  "ctx = ssl.create_default_context()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  118,
+                         "snippet":  "with socket.create_connection((self.host, self.port), timeout=10) as sock:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  149,
+                         "snippet":  "except ssl.SSLError as exc:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  164,
+                         "snippet":  "ctx = ssl.create_default_context()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  165,
+                         "snippet":  "with socket.create_connection((self.host, self.port), timeout=10) as sock:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/vuln_scanners/tls_scanner.py",
+                         "line":  300,
+                         "snippet":  "with open(path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/xss_scanner.py",
+                         "line":  12,
+                         "snippet":  "from urllib.parse import urljoin, urlparse, parse_qs"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "agents/vuln_scanners/xss_scanner.py",
+                         "line":  26,
+                         "snippet":  "self.session = requests.Session()"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "agents/vuln_scanners/xss_scanner.py",
+                         "line":  176,
+                         "snippet":  "with open(filename, \"w\") as f:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "control/surfaces.md",
+                         "line":  47,
+                         "snippet":  "| Must NOT be | Source of production secrets or long-running jobs |"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/auth_policy.py",
+                         "line":  30,
+                         "snippet":  "with open(path, \"r\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/auth_policy.py",
+                         "line":  104,
+                         "snippet":  "with open(path, \"rb\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/auth_policy.py",
+                         "line":  126,
+                         "snippet":  "with open(log_file, \"a\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/auth_policy.py",
+                         "line":  129,
+                         "snippet":  "f.write(f\"{ts} {line}\\n\")"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/config.py",
+                         "line":  17,
+                         "snippet":  "with open(path, \"r\") as f:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "core/disclosure_formatter.py",
+                         "line":  218,
+                         "snippet":  "text = re.sub(r\"(token|apikey|api_key|secret)\\s*[:=]\\s*[\u0027\\\"]?[^\u0027\\\"\\s]+\", r\"\\1=[redacted]\", text, flags=re.I)"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/disclosure_formatter.py",
+                         "line":  252,
+                         "snippet":  "with open(output_path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/disclosure_formatter.py",
+                         "line":  253,
+                         "snippet":  "f.write(full_text)"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/focus.py",
+                         "line":  26,
+                         "snippet":  "with open(path, \"r\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/openclaw_report.py",
+                         "line":  13,
+                         "snippet":  "with open(path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/openclaw_schema.py",
+                         "line":  10,
+                         "snippet":  "with open(path, \"r\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/phase_runner.py",
+                         "line":  77,
+                         "snippet":  "with p.open(\"w\", encoding=\"utf-8\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/phase_runner.py",
+                         "line":  79,
+                         "snippet":  "f.write(json.dumps(event) + \"\\n\")"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/playbooks.py",
+                         "line":  18,
+                         "snippet":  "with open(path, \"r\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/playbooks.py",
+                         "line":  31,
+                         "snippet":  "with open(p, \"r\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/report.py",
+                         "line":  17,
+                         "snippet":  "with open(path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/report.py",
+                         "line":  25,
+                         "snippet":  "with open(path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/report.py",
+                         "line":  26,
+                         "snippet":  "f.write(md)"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/report.py",
+                         "line":  54,
+                         "snippet":  "with open(path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/report.py",
+                         "line":  55,
+                         "snippet":  "f.write(html)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "core/scope.py",
+                         "line":  10,
+                         "snippet":  "from urllib.parse import urlparse"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/scope.py",
+                         "line":  36,
+                         "snippet":  "with open(path, \"r\") as f:"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "core/version.py",
+                         "line":  5,
+                         "snippet":  "import subprocess"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "core/version.py",
+                         "line":  14,
+                         "snippet":  "proc = subprocess.run("
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/evidence/store.py",
+                         "line":  29,
+                         "snippet":  "with open(path, \"w\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "core/harness/validate.py",
+                         "line":  10,
+                         "snippet":  "with open(report_path, \"r\") as f:"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "docs/OPERATIONS.md",
+                         "line":  89,
+                         "snippet":  "- requires runtime token gate (`--consent-token`)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "docs/OPERATIONS.md",
+                         "line":  95,
+                         "snippet":  "- Never hardcode secrets."
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "docs/OPERATIONS.md",
+                         "line":  224,
+                         "snippet":  "- deep-mode smoke needs explicit consent token + consent file"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "mcp/code_adapter.py",
+                         "line":  19,
+                         "snippet":  "resp = requests.post(self.endpoint, json={\"action\": \"health\"}, timeout=5)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "mcp/code_adapter.py",
+                         "line":  28,
+                         "snippet":  "resp = requests.post("
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "mcp/crawl_adapter.py",
+                         "line":  19,
+                         "snippet":  "resp = requests.post(self.endpoint, json={\"action\": \"health\"}, timeout=5)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "mcp/crawl_adapter.py",
+                         "line":  28,
+                         "snippet":  "resp = requests.post("
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "mcp/enrichment_adapter.py",
+                         "line":  19,
+                         "snippet":  "resp = requests.post(self.endpoint, json={\"action\": \"health\"}, timeout=5)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "mcp/enrichment_adapter.py",
+                         "line":  28,
+                         "snippet":  "resp = requests.post("
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "mcp/recon_adapter.py",
+                         "line":  19,
+                         "snippet":  "resp = requests.post(self.endpoint, json={\"action\": \"health\"}, timeout=5)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "mcp/recon_adapter.py",
+                         "line":  28,
+                         "snippet":  "resp = requests.post("
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "playbooks/auth.yaml",
+                         "line":  4,
+                         "snippet":  "- reset_flow: \"Check reset flow for enumeration and weak tokens.\""
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "playbooks/cookies.yaml",
+                         "line":  17,
+                         "snippet":  "tool: requests.get(url)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "playbooks/cookies.yaml",
+                         "line":  21,
+                         "snippet":  "description: Flag cookies whose names match session/auth patterns (sess, token, sid, jwt, etc.)."
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "playbooks/headers.yaml",
+                         "line":  17,
+                         "snippet":  "tool: requests.get(url)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "playbooks/tls.yaml",
+                         "line":  16,
+                         "snippet":  "tool: requests.get(http_url, allow_redirects=False)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "playbooks/tls.yaml",
+                         "line":  21,
+                         "snippet":  "tool: ssl.wrap_socket / openssl s_client"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "playbooks/tls.yaml",
+                         "line":  26,
+                         "snippet":  "tool: ssl.SSLSocket.cipher()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "playbooks/tls.yaml",
+                         "line":  31,
+                         "snippet":  "tool: ssl.SSLSocket.getpeercert()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "playbooks/tls.yaml",
+                         "line":  36,
+                         "snippet":  "tool: requests.get(https_url).headers"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "playbooks/tls.yaml",
+                         "line":  41,
+                         "snippet":  "- ssl.SSLSocket.version() + cipher() output"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/api_detector.py",
+                         "line":  14,
+                         "snippet":  "\"env\": \"SHODAN_API_KEY\","
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/api_detector.py",
+                         "line":  19,
+                         "snippet":  "\"env\": \"CENSYS_API_KEY\","
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/api_detector.py",
+                         "line":  24,
+                         "snippet":  "\"env\": \"VIRUSTOTAL_API_KEY\","
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/api_detector.py",
+                         "line":  29,
+                         "snippet":  "\"env\": \"GITHUB_TOKEN\","
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "scripts/package_evidence.py",
+                         "line":  23,
+                         "snippet":  "zf.write(full, rel)"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "scripts/rotate_focus.py",
+                         "line":  33,
+                         "snippet":  "with open(args.config, \"w\") as f:"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "scripts/run_focus.py",
+                         "line":  7,
+                         "snippet":  "import subprocess"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "scripts/run_focus.py",
+                         "line":  37,
+                         "snippet":  "return subprocess.call(cmd, env=env)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/setup_mcp.sh",
+                         "line":  41,
+                         "snippet":  "echo \"  export SHODAN_API_KEY=your_key\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/setup_mcp.sh",
+                         "line":  42,
+                         "snippet":  "echo \"  export CENSYS_API_KEY=your_key\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/setup_mcp.sh",
+                         "line":  43,
+                         "snippet":  "echo \"  export CENSYS_API_SECRET=your_secret\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/setup_mcp.sh",
+                         "line":  44,
+                         "snippet":  "echo \"  export VIRUSTOTAL_API_KEY=your_key\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "scripts/setup_mcp.sh",
+                         "line":  45,
+                         "snippet":  "echo \"  export GITHUB_TOKEN=your_token\""
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  9,
+                         "snippet":  "import subprocess"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  25,
+                         "snippet":  "def _run(args: list[str], env: dict[str, str] | None = None) -\u003e subprocess.CompletedProcess:"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  29,
+                         "snippet":  "return subprocess.run("
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  153,
+                         "snippet":  "def test_doctor_deep_missing_token_exit_2(tmp_path):"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  156,
+                         "snippet":  "out = tmp_path / \"doctor_deep_missing_token\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  172,
+                         "snippet":  "assert \"--deep requires --consent-token\" in proc.stdout"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  175,
+                         "snippet":  "def test_doctor_deep_token_mismatch_exit_2(tmp_path):"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  178,
+                         "snippet":  "out = tmp_path / \"doctor_deep_bad_token\""
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  181,
+                         "snippet":  "consent.write_text(\"TOKEN: right-token\\n\", encoding=\"utf-8\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  194,
+                         "snippet":  "\"--consent-token\","
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  195,
+                         "snippet":  "\"wrong-token\","
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  199,
+                         "snippet":  "assert \"consent token mismatch\" in proc.stdout"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  233,
+                         "snippet":  "raise AssertionError(\"network call attempted via socket.connect\")"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  238,
+                         "snippet":  "monkeypatch.setattr(socket.socket, \"connect\", fail_connect, raising=True)"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  239,
+                         "snippet":  "monkeypatch.setattr(requests.sessions.Session, \"request\", fail_request, raising=True)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_doctor_cli.py",
+                         "line":  248,
+                         "snippet":  "consent_token=\"\","
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_scan_contract.py",
+                         "line":  48,
+                         "snippet":  "\"evidence\": [\"Server: nginx/1.24.0\", \"token=abc12345\"],"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_scan_contract.py",
+                         "line":  78,
+                         "snippet":  "def test_deep_mode_requires_token_and_matching_consent(tmp_path):"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_scan_contract.py",
+                         "line":  87,
+                         "snippet":  "consent.write_text(\"TOKEN: right-token\\n\", encoding=\"utf-8\")"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_scan_contract.py",
+                         "line":  90,
+                         "snippet":  "_enforce_deep_consent(\"deep\", \"wrong-token\", str(out_dir), target)"
+                     },
+                     {
+                         "category":  "secrets_env",
+                         "path":  "tests/test_scan_contract.py",
+                         "line":  92,
+                         "snippet":  "_enforce_deep_consent(\"deep\", \"right-token\", str(out_dir), target)"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  25,
+                         "snippet":  "import subprocess"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  54,
+                         "snippet":  "return subprocess.check_output(cmd, cwd=path, stderr=subprocess.DEVNULL).decode().strip()"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  67,
+                         "snippet":  "with open(\"/proc/uptime\") as f:"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  78,
+                         "snippet":  "out = subprocess.check_output("
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  80,
+                         "snippet":  "stderr=subprocess.DEVNULL,"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  88,
+                         "snippet":  "out = subprocess.check_output("
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  91,
+                         "snippet":  "stderr=subprocess.DEVNULL,"
+                     },
+                     {
+                         "category":  "command_execution",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  104,
+                         "snippet":  "out = subprocess.check_output([\"crontab\", \"-l\"], stderr=subprocess.DEVNULL).decode()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  120,
+                         "snippet":  "surface = surface or os.environ.get(\"SURFACE_NAME\") or socket.gethostname()"
+                     },
+                     {
+                         "category":  "network_calls",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  128,
+                         "snippet":  "\"hostname\": socket.gethostname(),"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  137,
+                         "snippet":  "with open(out_file, \"a\") as f:"
+                     },
+                     {
+                         "category":  "file_writes",
+                         "path":  "tools/heartbeat_write.py",
+                         "line":  138,
+                         "snippet":  "f.write(json.dumps(record) + \"\\n\")"
+                     }
+                 ]
+}

@@ -90,6 +90,11 @@ def validate_finding(finding: dict[str, Any]) -> list[str]:
         if key not in finding:
             errors.append(f"Missing required key: {key}")
 
+    for key in ("id", "type", "title"):
+        value = finding.get(key)
+        if not isinstance(value, str) or not value.strip():
+            errors.append(f"{key} must be a non-empty string")
+
     if finding.get("severity") not in ALLOWED_SEVERITIES:
         errors.append(f"Invalid severity: {finding.get('severity')}")
     if finding.get("confidence") not in ALLOWED_CONFIDENCE:
