@@ -10,7 +10,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from bugbounty_swarm_cli import _consent_file_path, _enforce_deep_consent, _prepare_schema_findings
+from swarm_review_cli import _consent_file_path, _enforce_deep_consent, _prepare_schema_findings
 from core.disclosure_formatter import format_disclosure_email
 from core.finding_schema import validate_finding
 

@@ -17,9 +17,9 @@ import requests
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from bugbounty_swarm_cli import run_doctor
+from swarm_review_cli import run_doctor
 
-CLI = [sys.executable, "./bugbounty-swarm"]
+CLI = [sys.executable, "./swarm-review"]
 
 
 def _run(args: list[str], env: dict[str, str] | None = None) -> subprocess.CompletedProcess:
@@ -254,4 +254,4 @@ def test_version_output_semver():
     proc = _run(["--version"])
     assert proc.returncode == 0
     text = proc.stdout.strip()
-    assert re.match(r"^bugbounty-swarm v\d+\.\d+\.\d+ \(commit (?:[a-f0-9]+|unknown)\)$", text)
+    assert re.match(r"^swarm-review v\d+\.\d+\.\d+ \(commit (?:[a-f0-9]+|unknown)\)", text)

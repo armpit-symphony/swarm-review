@@ -9,7 +9,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from bugbounty_swarm_cli import _consent_file_path
+from swarm_review_cli import _consent_file_path
 from core.focus import require_focus_target
 from core.scope import ScopeConfig, require_in_scope
 

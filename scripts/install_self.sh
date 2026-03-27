@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-AGENT_DIR="${HOME}/.agents/skills/bugbounty-swarm"
+AGENT_DIR="${HOME}/.agents/skills/swarm-review"
 
 mkdir -p "$(dirname "$AGENT_DIR")"
 

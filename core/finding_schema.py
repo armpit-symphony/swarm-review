@@ -1,4 +1,4 @@
-"""Stable finding schema helpers for bugbounty-swarm."""
+"""Stable finding schema helpers for SwarmReview."""
 
 from __future__ import annotations
 
