@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
+"""
+SwarmReview CLI wrapper.
+Formerly: bugbounty-swarm
+Run with: python3 bugbounty-swarm <command>
+Or:       python3 swarm_review review ...
+"""
 from bugbounty_swarm_cli import main
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

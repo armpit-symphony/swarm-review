@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unified CLI for bugbounty-swarm workflows."""
+"""Unified CLI for SwarmReview — bug bounty swarm workflows."""
 
 from __future__ import annotations
 
@@ -480,9 +480,110 @@ def run_scan(
     return summary
 
 
+def run_review(
+    github_repo: str,
+    pr_number: int,
+    diff_path: str,
+    local_repo: str,
+    profile: str,
+    out_dir: str,
+    github_token: str,
+    openclaw: bool,
+    summary_json: str,
+    artifact_dir: str,
+) -> dict:
+    """Run the multi-pass code review pipeline."""
+    # Import here to avoid circular imports
+    from agents.static_analyzer import StaticAnalyzer
+    from agents.secrets_detector import SecretsDetector
+    from core.report import write_json as core_write_json
+    from pathlib import Path
+    import os
+
+    run_id = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+
+    findings = []
+
+    # Determine what to scan
+    scan_path = local_repo or diff_path or github_repo
+    slug = f"review_{run_id}"
+
+    # Pass 1: SAST
+    if scan_path and Path(scan_path).exists():
+        analyzer = StaticAnalyzer(scan_path, profile=profile, output_dir=str(out))
+        findings.extend(analyzer.run())
+        analyzer.write_output(suffix=slug)
+
+    # Pass 2: Secrets Detection
+    if scan_path and Path(scan_path).exists() and profile in ("review-cautious", "review-deep", "cautious", "deep"):
+        detector = SecretsDetector(scan_path, profile=profile, output_dir=str(out))
+        findings.extend(detector.run())
+        detector.write_output(suffix=slug)
+
+    # Write consolidated findings
+    findings_file = out / f"findings_{slug}.json"
+    core_write_json(str(findings_file), {
+        "run_id": run_id,
+        "timestamp": _utc_now(),
+        "profile": profile,
+        "target": github_repo or diff_path or local_repo,
+        "total_findings": len(findings),
+        "findings": findings,
+    })
+
+    # Write markdown summary
+    summary_file = out / f"report_{slug}.md"
+    by_sev = {}
+    for f in findings:
+        by_sev.setdefault(f.get("severity", "INFO"), []).append(f)
+
+    lines = [
+        f"# SwarmReview Report — {run_id}",
+        f"",
+        f"**Profile:** {profile}",
+        f"**Target:** {github_repo or diff_path or local_repo}",
+        f"**Total Findings:** {len(findings)}",
+        "",
+    ]
+    for sev in ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"]:
+        if sev in by_sev:
+            lines.append(f"## {sev} ({len(by_sev[sev])})")
+            for item in by_sev[sev]:
+                lines.append(f"- **{item.get('title', 'Unknown')}** — `{item.get('file', '?')}:{item.get('line', '?')}` ({item.get('tool', '?')})")
+            lines.append("")
+
+    summary_file.write_text("\n".join(lines), encoding="utf-8")
+
+    # OpenClaw summary
+    if openclaw and summary_json:
+        core_write_json(summary_json, {
+            "run_id": run_id,
+            "profile": profile,
+            "total_findings": len(findings),
+            "findings": findings,
+            "outputs": {
+                "findings_json": str(findings_file),
+                "report_md": str(summary_file),
+            },
+        })
+
+    return {
+        "run_id": run_id,
+        "profile": profile,
+        "total_findings": len(findings),
+        "findings_file": str(findings_file),
+        "report_file": str(summary_file),
+    }
+
+
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="bugbounty-swarm", description="Bug bounty swarm CLI")
-    parser.add_argument("--version", action="store_true", help="Print bugbounty-swarm version and exit")
+    parser = argparse.ArgumentParser(
+        prog="swarm-review",
+        description="SwarmReview — autonomous multi-pass code review for AI-generated code",
+    )
+    parser.add_argument("--version", action="store_true", help="Print swarm-review version and exit")
     sub = parser.add_subparsers(dest="command")
 
     scan = sub.add_parser(
@@ -538,6 +639,30 @@ def build_parser() -> argparse.ArgumentParser:
     doctor.add_argument("--use-shannon", action="store_true", help="Validate SHANNON_BIN executable when set")
     doctor.add_argument("--deep", action="store_true", help="Validate deep-mode consent gate")
     doctor.add_argument("--consent-token", default="", help="Required when --deep is used")
+
+    review = sub.add_parser(
+        "review",
+        help="Run multi-pass code review on a GitHub PR or local diff",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            f"{get_version_string()}\n\n"
+            "Examples:\n"
+            "  swarm-review review --github-repo owner/repo --pr-number 42 --profile cautious\n"
+            "  swarm-review review --diff /path/to/changes.diff --profile deep\n"
+            "  swarm-review review --repo /path/to/codebase --profile review-passive\n"
+        ),
+    )
+    review.add_argument("--github-repo", help="owner/repo format")
+    review.add_argument("--pr-number", type=int, help="GitHub PR number")
+    review.add_argument("--diff", help="Path to diff/patch file")
+    review.add_argument("--repo", help="Path to local repository")
+    review.add_argument("--profile", default="cautious", choices=["review-passive", "review-cautious", "review-deep", "passive", "cautious", "deep"])
+    review.add_argument("--out", default=_default_out_dir(), help="Output directory")
+    review.add_argument("--token", help="GitHub token (or set GITHUB_TOKEN env var)")
+    review.add_argument("--openclaw", action="store_true", help="Emit OpenClaw schema")
+    review.add_argument("--summary-json", help="OpenClaw summary JSON path")
+    review.add_argument("--artifact-dir", help="Artifact bundle directory")
+
     return parser
 
 
@@ -569,6 +694,21 @@ def main() -> int:
             deep=args.deep,
             consent_token=args.consent_token,
         )
+    if args.command == "review":
+        result = run_review(
+            github_repo=args.github_repo,
+            pr_number=args.pr_number,
+            diff_path=args.diff,
+            local_repo=args.repo,
+            profile=args.profile,
+            out_dir=args.out,
+            github_token=args.token,
+            openclaw=args.openclaw,
+            summary_json=args.summary_json,
+            artifact_dir=args.artifact_dir,
+        )
+        print(json.dumps(result, indent=2))
+        return 0
     print("ERROR: missing command. Use --help.")
     return 1
 

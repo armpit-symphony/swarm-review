@@ -1,520 +1,211 @@
-# 🐞 Bug Bounty Swarm
+# 🐝 SwarmReview
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Bug%20Bounty-Autonomous%20Agents-blue" alt="Bug Bounty Swarm">
+  <img src="https://img.shields.io/badge/Code%20Review-Autonomous%20Swarm-blue" alt="SwarmReview">
   <img src="https://img.shields.io/badge/Python-3.8+-green" alt="Python">
   <img src="https://img.shields.io/badge/License-MIT-orange" alt="License">
 </p>
 
-> Autonomous agent swarm for bug bounty reconnaissance and vulnerability hunting. Built for security researchers, by autonomous agents.
+> Autonomous multi-pass code review for AI-generated code. A swarm of specialized agents catches what single-pass scanners miss.
+
+**⚠️ Rebrand in progress:** SwarmReview was formerly "Bug Bounty Swarm." Core architecture is proven (300+ production runs). Positioning is pivoting from external vulnerability hunting to internal AI code review.
+
+---
+
+## The Problem
+
+AI coding tools are merging PRs **98% faster** — but human review capacity hasn't kept up. AI-generated code has **1.7x more issues per PR** vs human-written (GitClear 2025). Logic errors up 75%, security vulnerabilities up 1.5-2x.
+
+**The bottleneck shifted:** Writing code → Reviewing code.
+
+SwarmReview addresses this with a multi-agent swarm that runs multiple review passes — SAST, secrets detection, LLM logic analysis — and delivers findings as GitHub PR comments, ready-to-use reports, or continuous monitoring alerts.
+
+---
 
 ## 🚀 Features
 
-### Reconnaissance
-- **DNS Enumeration** - A records, MX, TXT, WHOIS
-- **Subdomain Discovery** - CRT.sh, certificate enumeration
-- **Port Scanning** - Service detection
-- **Shodan/Censys Integration** - Paid APIs supported
+### Multi-Pass Review Architecture
+- **Pass 1: SAST** — Bandit/Semgrep for security hotspots and code quality
+- **Pass 2: Secrets Detection** — API keys, tokens, passwords in diffs
+- **Pass 3: LLM Analysis** — Logic errors, business rule violations, exploitability
+- **Pass 4: Correlation** — Cross-reference findings across passes
 
-### Web Crawling
-- **Deep Crawling** - Recursive page discovery
-- **Screenshot Capture** - Visual evidence with Puppeteer
-- **Form Discovery** - Input extraction for testing
-- **JavaScript Analysis** - Endpoint extraction from JS files
+### Integrations
+- **GitHub PRs** — Webhook-triggered review on PR open/update
+- **GitHub App** — One-click install, no server required
+- **CLI** — `./swarm-review scan --diff <patch>` for local/offline review
 
-### Vulnerability Scanning
-- **XSS Scanner** - Reflected, Stored, DOM-based
-- **SQL Injection** - Error-based, Union-based
-- **IDOR** - Object reference testing
-- **SSRF** - Server-side request forgery
-- **Authentication** - Login, password reset, sessions
+### Output Formats
+- GitHub PR comments (per-finding, actionable)
+- JSON report (`findings.json`) with severity + evidence
+- Markdown summary (`report.md`) for teams
+- Continuous monitoring alerts (email/Slack — Pro tier)
 
-### Enrichment
-- **CVE Lookup** - Free cve.circl.lu
-- **VirusTotal** - Paid API integration
-- **Technology Detection** - Framework fingerprinting
+### Safety & Consent
+- Self-authorized: You're reviewing your own code — no external authorization needed
+- Strict scope enforcement via `configs/scope.json`
+- Evidence bundling with redaction by default
+- No exfiltration of proprietary code (all analysis runs locally)
+
+---
 
 ## 📁 Architecture
 
 ```
-bugbounty-swarm/
+swarm-review/
 ├── agents/
-│   ├── recon_agent.py           # Domain & network recon
-│   ├── crawl_agent.py           # Web crawling & screenshots
-│   ├── enrichment_agent.py      # CVE & VT enrichment
-│   └── vuln_scanners/
-│       ├── xss_scanner.py       # Cross-Site Scripting
-│       ├── sqli_scanner.py      # SQL Injection
-│       ├── idor_scanner.py      # Insecure Direct Object Reference
-│       ├── ssrf_scanner.py      # Server-Side Request Forgery
-│       └── auth_scanner.py      # Authentication issues
-├── scripts/
-│   ├── api_detector.py          # Auto-detect free/paid APIs
-│   └── setup_mcp.sh             # MCP server setup
-├── configs/
-│   └── swarm.conf               # Configuration
-├── swarm_orchestrator.py         # Main recon + crawl runner
-└── vuln_scanner_orchestrator.py # Vulnerability scanner runner
+│   ├── static_analyzer.py       # SAST (Bandit/Semgrep)
+│   ├── secrets_detector.py      # detect-secrets integration
+│   ├── llm_review_agent.py      # LLM-powered logic analysis
+│   ├── comment_agent.py         # GitHub PR comment posting
+│   ├── crawl_agent.py           # Web app review (legacy)
+│   └── vuln_scanners/           # Active testing (legacy)
+├── github_app/
+│   ├── webhook_server.py        # PR webhook receiver
+│   └── server.py               # GitHub App entry point
+├── code_review_pipeline.py       # New: PR review orchestrator
+├── swarm_orchestrator.py        # Original: web app recon (legacy)
+├── vuln_scanner_orchestrator.py # Original: active vuln scan (legacy)
+└── configs/
+    ├── profiles.yaml             # Review profiles (passive/cautious/deep)
+    ├── scope.json               # Authorized targets
+    └── focus.yaml               # Continuous monitoring config
 ```
+
+---
 
 ## 🔧 Quick Start
 
-### Basic Usage
+### GitHub App (Recommended)
+
+1. Install the GitHub App on your repo
+2. That's it — PRs automatically trigger SwarmReview
+3. Findings appear as PR comments within minutes
+
+### CLI
 
 ```bash
-# Clone the repository
-git clone https://github.com/armpit-symphony/bugbounty-swarm.git
-cd bugbounty-swarm
+# Install
+git clone https://github.com/armpit-symphony/swarm-review.git
+cd swarm-review
+pip install -r requirements.txt
 
-# Run full reconnaissance + crawl
-python3 swarm_orchestrator.py example.com
+# Review a diff locally
+./swarm-review scan --diff /path/to/pull.diff --token <gh-token>
 
-# Run vulnerability scanners
-python3 vuln_scanner_orchestrator.py https://example.com
+# Full codebase scan (one-shot)
+python3 code_review_pipeline.py /path/to/repo --profile cautious
 ```
 
-### Operator Quickstart (Scan + Draft)
-
-Authorized targets only. The workflow is:
-authorized exploration -> structured findings -> draft disclosure -> human review/send -> consented deep dive.
+### Docker
 
 ```bash
-cd /home/sparky/bugbounty-swarm
-
-# Exploratory mode (default; safe checks only)
-./bugbounty-swarm scan \
-  --target example.com \
-  --auth ./policy.yml \
-  --scope ./configs/scope.json \
-  --out ./artifacts/$(date -u +%Y%m%d_%H%M%S)
+docker build -t swarm-review .
+docker run -e GITHUB_APP_ID=xxx -e GITHUB_APP_PRIVATE_KEY=@/path/to/key.pem \
+  -v $(pwd)/output:/app/output swarm-review
 ```
 
-Outputs in `--out`:
-- `findings.json` (stable finding schema)
-- `disclosure_email.md` (draft only; human must review before sending)
-- `run.log` (phase start/stop events + durations)
-- default behavior enforces `--no-legacy-output` (fails if anything writes outside `--out`)
-
-### Consent Gate For Deep Dive
-
-Deep mode requires both:
-1. `--consent-token <token>`
-2. Signed consent file at `<out>/consent/<target>.txt` containing that token
-
-```bash
-RUN_DIR=./artifacts/$(date -u +%Y%m%d_%H%M%S)
-mkdir -p "$RUN_DIR/consent"
-printf "Authorized deep testing for example.com\nTOKEN: abc123\n" > "$RUN_DIR/consent/example.com.txt"
-
-./bugbounty-swarm scan \
-  --target example.com \
-  --auth ./policy.yml \
-  --scope ./configs/scope.json \
-  --mode deep \
-  --consent-token abc123 \
-  --out "$RUN_DIR"
-```
-
-Optional external adapter (off by default):
-
-```bash
-export SHANNON_BIN=/path/to/shannon
-./bugbounty-swarm scan --target example.com --auth ./policy.yml --scope ./configs/scope.json --use-shannon
-```
-
-### Doctor (Preflight)
-
-Run local preflight validation before scanning. `doctor` does not run vulnerability probes and should not perform network scanning.
-
-```bash
-./bugbounty-swarm doctor \
-  --target example.com \
-  --auth ./policy.yml \
-  --scope ./configs/scope.json \
-  --out ./artifacts/preflight
-```
-
-Deep-mode preflight:
-
-```bash
-RUN_DIR=./artifacts/preflight_deep
-mkdir -p "$RUN_DIR/consent"
-printf "TOKEN: abc123\n" > "$RUN_DIR/consent/example.com.txt"
-
-./bugbounty-swarm doctor \
-  --target example.com \
-  --auth ./policy.yml \
-  --scope ./configs/scope.json \
-  --out "$RUN_DIR" \
-  --deep \
-  --consent-token abc123
-```
-
-Exit codes:
-- `0`: ready to run `scan`
-- `2`: configuration error (actionable message printed)
-
-### Versioning
-
-```bash
-./bugbounty-swarm --version
-```
-
-Output format:
-- `bugbounty-swarm vX.Y.Z (commit <shortsha|unknown>)`
-
-### API Configuration
-
-The swarm works **free by default**. Set API keys to enable enhanced features:
-
-```bash
-# Paid APIs (optional)
-export SHODAN_API_KEY=your_key
-export CENSYS_API_KEY=your_key
-export CENSYS_API_SECRET=your_secret
-export VIRUSTOTAL_API_KEY=your_key
-export GITHUB_TOKEN=your_token
-
-# Check what's enabled
-python3 scripts/api_detector.py
-```
-
-| API | Free Alternative | Paid Benefit |
-|-----|------------------|--------------|
-| Shodan | Native DNS | Full subnet data |
-| Censys | CRT.sh | Certificate search |
-| VirusTotal | cve.circl.lu | IP/domain reputation |
-| GitHub | Public API | Rate limits |
-
-## 🎯 Usage Examples
-
-### Full Bug Bounty Workflow
-
-```bash
-# 1. Recon + Crawl
-python3 swarm_orchestrator.py target.com
-
-# 2. Vulnerability Scanning
-python3 vuln_scanner_orchestrator.py https://target.com
-
-# 3. Check output/
-ls -la output/
-```
-
-### Individual Agents
-
-```bash
-# Just recon
-python3 agents/recon_agent.py target.com
-
-# Just crawl
-python3 agents/crawl_agent.py target.com
-
-# Just XSS scan
-python3 agents/vuln_scanners/xss_scanner.py https://target.com
-```
-
-## 📊 Output
-
-Results are saved to `output/`:
-
-| File | Description |
-|------|-------------|
-| `recon_*.json` | DNS, WHOIS, subdomains |
-| `crawl_*.json` | Pages, forms, screenshots |
-| `vuln_scan_*.json` | All vulnerabilities found |
-| `swarm_report_*.md` | Human-readable summary |
-| `*_*.html` | Professional HTML report |
-
-## ✅ Profiles
-
-Run modes are defined in `configs/profiles.yaml` and default to `cautious`.
-
-- `passive`: Recon + crawl only
-- `cautious`: Recon + crawl + gated active tests
-- `active`: Deeper scans (authorized only)
-
-## 🔒 Authorization Gate
-
-The swarm **fails closed** — it will not execute unless a valid auth policy YAML loads successfully.
-
-### Default policy path
-
-`policy.yml` in the repo root.  Edit it before running:
-
-```yaml
-version: "1"
-allow:
-  targets:
-    - target.com          # domains you are explicitly authorized to test
-  actions:
-    - recon
-    - crawl
-    - enrichment
-    - vuln_scan
-```
-
-### CLI flags
-
-```bash
-# Use default ./policy.yml (auto-enforced)
-python3 swarm_orchestrator.py target.com
-
-# Specify a different policy file
-python3 swarm_orchestrator.py target.com --auth /path/to/policy.yml
-
-# Bypass (prints big warning — not recommended)
-python3 swarm_orchestrator.py target.com --no-require-auth
-```
-
-### Audit log
-
-Every successful policy load prints to stdout:
-
-```
-AUTHZ_ENFORCED run_id=<uuid> policy_sha256=<sha256> policy_path=<path>
-```
-
-Set `SWARM_AUTH_LOG=/path/to/auth.log` to also append the event to a file.
-
-### Failure cases (all exit nonzero)
-
-| Condition | Exit |
-|-----------|------|
-| Policy file missing | 1 |
-| YAML parse error | 1 |
-| Schema invalid (missing version/allow/targets/actions) | 1 |
-| Empty allow.targets or allow.actions | 1 |
-
-## 🔐 Scope
-
-Targets must be added to `configs/scope.json` before running.
-
-```
-{
-  "domains": ["example.com"],
-  "ips": [],
-  "notes": "Authorized targets only"
-}
-```
-
-## 🧪 Validation
-
-Run the validation harness on a scan report:
-
-```bash
-python3 -m core.harness.validate output/vuln_scan_example_com_YYYYMMDD_HHMMSS.json
-```
-
-Package evidence:
-
-```bash
-python3 scripts/package_evidence.py --output-dir output
-```
-
-## 🧾 Evidence Level
-
-Set evidence verbosity in `configs/budget.yaml`:
-
-```
-evidence_level: lite | standard | full
-```
-
-## 🎯 Focus Mode
-
-Enable target focus in `configs/focus.yaml` to lock the swarm to a single target:
-
-```
-enabled: true
-target: "example.com"
-days: 56
-mode: single | rotate
-rotate_targets:
-  - example.com
-  - example.org
-rotate_start: "2026-02-01T00:00:00Z"
-```
-
-## 🧭 OpenClaw Schema
-
-Schema definition lives in `configs/openclaw_schema.json`.
-
-## ⏱️ Rate Limits
-
-Configure request budgets in `configs/budget.yaml`:
-
-```
-requests:
-  max_per_minute: 120
-  max_per_run: 1000
-```
-
-## 🔁 Focus Rotation
-
-Configure rotation quickly:
-
-```bash
-python3 scripts/rotate_focus.py --targets "example.com,example.org" --days 56 --enable
-```
-
-## ⏲️ Cron Example
-
-Run every day at 3am UTC:
-
-```
-0 3 * * * /usr/bin/python3 /home/sparky/bugbounty-swarm/scripts/run_focus.py >> /home/sparky/bugbounty-swarm/output/cron.log 2>&1
-```
-
-## 🧰 Make Targets
-
-```bash
-make test
-make validate
-```
-
-## 🤖 OpenClaw Integration
-
-Emit a structured summary for OpenClaw and package artifacts:
-
-```bash
-python3 swarm_orchestrator.py example.com \
-  --profile cautious \
-  --run-vuln \
-  --authorized \
-  --openclaw \
-  --schema-repair \
-  --summary-json output/openclaw_summary.json \
-  --artifact-dir output/artifacts
-```
-
-For vuln scans:
-
-```bash
-python3 vuln_scanner_orchestrator.py https://example.com \
-  --authorized \
-  --profile cautious \
-  --tech "Next.js,React" \
-  --openclaw \
-  --schema-repair \
-  --summary-json output/openclaw_vuln_summary.json \
-  --artifact-dir output/artifacts
-```
-
-Note: schema validation is strict by default. Use `--schema-repair` to auto-fix.
-
-## 🧾 Schema Report
-
-Each run writes `output/openclaw_schema_report.json` with validation status.
-
-## 🧪 Dry Run
-
-Validate configs and emit empty reports without network requests:
-
-```bash
-python3 swarm_orchestrator.py example.com --dry-run
-python3 vuln_scanner_orchestrator.py https://example.com --dry-run
-```
-
-## 📐 Findings Schema
-
-`configs/findings_schema.json` is copied into each vuln output directory.
-
-## 📊 Dashboard
-
-Build a dashboard across runs:
-
-```bash
-python3 scripts/build_dashboard.py
-```
-
-The dashboard includes:
-- Total report counts and target summary
-- Per-target aggregation
-- Filtering by type and text search
-
-## 📎 Operator Sheet
-
-See `docs/OPERATIONS.md` for the merged runbook, safety policy, validation checklist, and work-order logbook.
-
-## 🧩 Self-Install (Agent)
-
-To install this repo as an agent skill on the server:
-
-```bash
-bash scripts/install_self.sh
-```
-
-## 🚀 One-Command Bootstrap
-
-```bash
-bash scripts/bootstrap.sh example.com
-```
-
-Bootstrap now checks:
-- `python3` + `pip3`
-- installs Python deps
-- warns if `node` / `puppeteer` missing
-- validates `configs/scope.json`
-
-## 🔒 Safety & Consent
-
-- [Operations Doc (includes Safety & Consent)](./docs/OPERATIONS.md) - **Required reading** before running any production scans.
-
-## 📋 Product Contract (scan interface)
-
-This defines the **sellable spec** — any run that doesn't meet these requirements is not a valid product run.
-
-### Operators must use: `./bugbounty-swarm scan`
-
-The `scan` command is the **only stable interface** for production runs.
-
-- **Exploratory is default** — safe, read-only checks (TLS, headers, cookies, passive recon)
-- **Deep mode consent** requires ALL of:
-  - Consent file at `<out>/consent/<target>.txt` with:
-    - Target identifier
-    - Consenting party contact
-    - Allowed techniques + time window
-    - "permission granted" statement + date
-  - Matching `--consent-token` argument at runtime
-
-### Required artifacts under `--out`:
-
-| File | Description |
-|------|-------------|
-| `findings.json` | Structured vulnerability findings |
-| `disclosure_email.md` | Draft disclosure email (human review required) |
-| `run.log` | Full execution log |
-
-### run.log first event:
-
-```
-AUTHZ_ENFORCED policy_sha256=<hash> target=<target> mode=<exploratory|deep>
-```
-
-This audit trail is **mandatory** for product-grade runs.
+---
+
+## 🎯 Usage Modes
+
+### Passive (Default — Free Tier)
+- SAST via Bandit/Semgrep on changed files
+- Secrets scan via detect-secrets
+- No LLM calls (no cost)
+- GitHub PR comments for High/Medium findings
+
+### Cautious (+ Secrets — Starter Tier, $29/mo)
+- Everything in Passive
+- Full secrets detection with regex + entropy
+- Email summary report per PR
+
+### Deep (+ LLM — Pro Tier, $99/mo)
+- Everything in Cautious
+- LLM-powered logic analysis (Grok/MiniMax)
+- Cross-pass correlation (correlate SAST + secrets + logic findings)
+- Slack alerts for critical findings
+
+### Continuous Monitoring (Enterprise, $299/mo)
+- Weekly re-scan of baseline
+- Drift detection (new exposures since last merge)
+- Dashboard with historical trends
+- Self-hosted option available
 
 ---
 
 ## 🔒 Safety & Ethics
 
-> **⚠️ WARNING: For authorized testing only**
-
-- Always obtain **written authorization** before testing any target
-- This tool is designed for **legitimate security research**
-- Unauthorized access is **illegal** and **unethical**
-- The authors assume **no liability** for misuse
-
-## 📝 License
-
-MIT License - See [LICENSE](LICENSE) for details.
-
-## 🤝 Contributing
-
-1. Fork the repo
-2. Create a feature branch
-3. Submit a PR
+- **Self-authorized:** You are reviewing your own code
+- **No exfiltration:** All analysis runs locally or in your infrastructure
+- **No touching production:** Only diffs and PR-level access
+- **Redaction:** Secrets auto-redacted from evidence bundles
 
 ---
 
-**Note:** This project follows the methodology from [First-Bounty](https://github.com/BehiSecc/First-Bounty) - the beginner-friendly bug bounty roadmap.
+## 📊 Comparison with Alternatives
 
+| Tool | Approach | Pricing | Best For |
+|------|----------|---------|---------|
+| **SwarmReview** | Multi-pass swarm | Free-$299/mo | Indie hackers, small teams |
+| CodeRabbit | Single-pass AI | $20/user/mo | GitHub-native teams |
+| Claude Code Security | Enterprise SAST | Enterprise | Big enterprises |
+| Shannon | Autonomous pentest | OSS / Enterprise | Security teams |
+| Semgrep | Rule-based SAST | Free-$150/mo | DevSecOps pipelines |
+
+SwarmReview differentiates on: **swarm multi-pass architecture**, **indie/small team pricing**, **GitHub App one-click install**.
+
+---
+
+## 🤖 OpenClaw Integration
+
+Emit structured summaries for OpenClaw dashboards:
+
+```bash
+python3 code_review_pipeline.py /path/to/repo \
+  --profile cautious \
+  --openclaw \
+  --summary-json output/openclaw_summary.json \
+  --artifact-dir output/artifacts
+```
+
+---
+
+## 🧪 Validation
+
+Run the validation harness on a review report:
+
+```bash
+python3 -m core.harness.validate output/findings_<repo>_YYYYMMDD_HHMMSS.json
+```
+
+---
+
+## 🔄 Legacy: Bug Bounty Swarm Mode
+
+The original Bug Bounty Swarm recon/orchestrator is preserved at:
+- `swarm_orchestrator.py` — Web app recon + crawl
+- `vuln_scanner_orchestrator.py` — Active vulnerability scanning
+
+These are maintained for backward compatibility but are **not the primary product direction**.
+
+---
+
+## Roadmap
+
+| Phase | Target | Features |
+|-------|--------|---------|
+| Phase 0 | Now | Repo rebrand, GitHub App scaffold, SAST integration |
+| Phase 1 | 2 weeks | Secrets detection, PR webhook + comments |
+| Phase 2 | 1 month | LLM review pass, cross-correlation |
+| Phase 3 | Q2 2026 | Gumroad/Lemon Squeezy payments, Free/Pro/Enterprise tiers |
+
+---
+
+## 📝 License
+
+MIT License — See [LICENSE](LICENSE) for details.
+
+---
+
+*Formerly: Bug Bounty Swarm — `https://github.com/armpit-symphony/bugbounty-swarm`*

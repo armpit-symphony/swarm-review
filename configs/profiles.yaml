@@ -1,4 +1,5 @@
 profiles:
+  # === Bug Bounty / Web App Scanning Profiles ===
   passive:
     active_tests: false
     max_pages: 10
@@ -8,3 +9,36 @@ profiles:
   active:
     active_tests: true
     max_pages: 50
+
+  # === Code Review Profiles ===
+  review-passive:
+    sast: true
+    semgrep: true
+    bandit: true
+    secrets: false
+    llm_analysis: false
+    correlation: false
+    max_files: 100
+    comment_on_pr: true
+    severity_filter: ["HIGH", "CRITICAL"]
+  review-cautious:
+    sast: true
+    semgrep: true
+    bandit: true
+    secrets: true
+    llm_analysis: false
+    correlation: false
+    max_files: 500
+    comment_on_pr: true
+    severity_filter: ["HIGH", "CRITICAL", "MEDIUM"]
+  review-deep:
+    sast: true
+    semgrep: true
+    bandit: true
+    secrets: true
+    llm_analysis: true
+    correlation: true
+    max_files: -1  # unlimited
+    comment_on_pr: true
+    severity_filter: []  # all findings
+    llm_provider: grok  # or minimax, openai

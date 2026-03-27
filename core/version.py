@@ -1,11 +1,11 @@
-"""Version helpers for bugbounty-swarm CLI."""
+"""Version helpers for swarm-review CLI."""
 
 from __future__ import annotations
 
 import subprocess
 from pathlib import Path
 
-__version__ = "0.4.0"
+__version__ = "1.0.0"  # SwarmReview 1.0 — rebrand from bugbounty-swarm 0.4
 
 
 def get_commit_short() -> str:
@@ -26,4 +26,4 @@ def get_commit_short() -> str:
 
 
 def get_version_string() -> str:
-    return f"bugbounty-swarm v{__version__} (commit {get_commit_short()})"
+    return f"swarm-review v{__version__} (commit {get_commit_short()}) — formerly bugbounty-swarm"

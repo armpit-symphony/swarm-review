@@ -1,12 +1,20 @@
-# Bug Bounty Swarm Dependencies
+# SwarmReview Dependencies
+# Formerly: Bug Bounty Swarm requirements.txt
 
 # Core
 requests>=2.28.0
 beautifulsoup4>=4.11.0
 PyYAML>=6.0.1
 
+# Code Review (SAST)
+bandit>=1.7.0        # Python SAST scanner
+semgrep>=1.0.0       # Multi-language SAST scanner
+
+# Secrets Detection
+detect-secrets>=1.4.0  # Secrets detection (optional — falls back to regex if not installed)
+
 # Optional (for screenshots)
 # puppeteer
 
-# Optional (for advanced crawling)  
+# Optional (for advanced crawling)
 # playwright
