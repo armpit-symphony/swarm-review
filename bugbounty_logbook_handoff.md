@@ -1,10 +1,10 @@
-# Bug Bounty Swarm Logbook Handoff
+# SwarmReview Logbook Handoff
 
 ## Date
 2026-03-04
 
 ## Repository
-`armpit-symphony/bugbounty-swarm`
+`armpit-symphony/swarm-review` (formerly `armpit-symphony/bugbounty-swarm`)
 
 ## Handoff Summary
 - Consolidated operational tracking documents into one canonical file:

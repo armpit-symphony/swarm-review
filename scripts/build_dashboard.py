@@ -48,7 +48,7 @@ def main() -> int:
         )
 
     html = f"""<!doctype html>
-<html><head><meta charset="utf-8"><title>Bug Bounty Swarm Dashboard</title>
+<html><head><meta charset="utf-8"><title>SwarmReview Dashboard</title>
 <style>
 body {{ font-family: Arial, sans-serif; margin: 32px; }}
 table {{ border-collapse: collapse; width: 100%; }}
@@ -72,7 +72,7 @@ function filterTable() {{
 }}
 </script>
 </head><body>
-<h1>Bug Bounty Swarm Dashboard</h1>
+<h1>SwarmReview Dashboard</h1>
 <div class="banner">
   <strong>Total reports:</strong> {len(reports)} |
   <strong>Targets:</strong> {len(stats_by_target)}

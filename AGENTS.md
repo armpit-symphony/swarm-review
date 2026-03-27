@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Purpose
-Plug-and-play agent skill for Bug Bounty Swarm.
+Plug-and-play agent skill for SwarmReview — autonomous multi-pass AI code review.
 
 ## Auto-Install
 Run:

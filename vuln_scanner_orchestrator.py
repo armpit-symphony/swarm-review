@@ -314,7 +314,7 @@ class VulnScannerOrchestrator:
         return names
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Bug Bounty Swarm Vulnerability Scanners")
+    parser = argparse.ArgumentParser(description="SwarmReview Vulnerability Scanners")
     parser.add_argument("target", help="Target URL")
     parser.add_argument("--authorized", action="store_true", help="Confirm explicit authorization")
     parser.add_argument("--profile", default="cautious", choices=["passive", "cautious", "active"])

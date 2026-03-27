@@ -1,4 +1,4 @@
-# Bug Bounty Report - 127.0.0.1:3000
+# SwarmReview Report - 127.0.0.1:3000
 
 **Generated:** 2026-03-01T03:49:44.852710
 **Target URL:** http://127.0.0.1:3000

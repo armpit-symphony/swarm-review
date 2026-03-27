@@ -35,7 +35,7 @@
 | Owner | Sparky |
 | Purpose | Security tooling, bot infra, disclosures, cron jobs |
 | Must NOT host | Public product UX |
-| Key services | bugbounty-swarm (cron every 2h), sparkbot-v2 (port 8091), kalshi-bot, pump-me-fun |
+| Key services | swarm-review (cron every 2h), sparkbot-v2 (port 8091), kalshi-bot, pump-me-fun |
 | Snapshot command | `bash tools/surface_snapshot.sh` |
 
 ### Laptop 1 / Laptop 2 — Dev Surfaces

@@ -72,11 +72,11 @@ class CrawlAgent:
             baseline = None
             self._budget.wait_for_budget()
             baseline = requests.get(url, timeout=10, headers={
-                "User-Agent": "Mozilla/5.0 (Bug Bounty Bot)"
+                "User-Agent": "Mozilla/5.0 (SwarmReview Bot)"
             })
             self._budget.wait_for_budget()
             resp = requests.get(url, timeout=10, headers={
-                "User-Agent": "Mozilla/5.0 (Bug Bounty Bot)"
+                "User-Agent": "Mozilla/5.0 (SwarmReview Bot)"
             })
             
             if not resp.ok:

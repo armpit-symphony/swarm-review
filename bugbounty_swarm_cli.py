@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unified CLI for SwarmReview — bug bounty swarm workflows."""
+"""Unified CLI for SwarmReview — autonomous AI code review."""
 
 from __future__ import annotations
 
@@ -593,10 +593,10 @@ def build_parser() -> argparse.ArgumentParser:
         epilog=(
             f"{get_version_string()}\n\n"
             "Examples:\n"
-            "  bugbounty-swarm scan --target example.com --auth ./policy.yml --scope ./configs/scope.json\n"
+            "  swarm-review scan --target example.com --auth ./policy.yml --scope ./configs/scope.json\n"
             "  RUN=./artifacts/20260303_150000 && mkdir -p \"$RUN/consent\" && \\\n"
             "    printf \"TOKEN: abc123\\n\" > \"$RUN/consent/example.com.txt\" && \\\n"
-            "    bugbounty-swarm scan --target example.com --auth ./policy.yml --scope ./configs/scope.json \\\n"
+            "    swarm-review scan --target example.com --auth ./policy.yml --scope ./configs/scope.json \\\n"
             "      --mode deep --consent-token abc123 --out \"$RUN\""
         ),
     )
@@ -628,8 +628,8 @@ def build_parser() -> argparse.ArgumentParser:
         epilog=(
             f"{get_version_string()}\n\n"
             "Examples:\n"
-            "  bugbounty-swarm doctor --target example.com --auth ./policy.yml --scope ./configs/scope.json --out ./artifacts/preflight\n"
-            "  bugbounty-swarm doctor --target example.com --auth ./policy.yml --scope ./configs/scope.json --out ./artifacts/preflight --deep --consent-token abc123\n"
+            "  swarm-review doctor --target example.com --auth ./policy.yml --scope ./configs/scope.json --out ./artifacts/preflight\n"
+            "  swarm-review doctor --target example.com --auth ./policy.yml --scope ./configs/scope.json --out ./artifacts/preflight --deep --consent-token abc123\n"
         ),
     )
     doctor.add_argument("--target", required=True, help="Target URL or host")

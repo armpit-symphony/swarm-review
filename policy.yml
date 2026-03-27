@@ -1,4 +1,4 @@
-# Bug Bounty Swarm — Authorization Policy
+# SwarmReview — Authorization Policy
 # ----------------------------------------
 # This file MUST exist and be valid before the swarm will execute.
 # Update allow.targets to the domains/IPs you have explicit permission to test.

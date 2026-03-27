@@ -1,4 +1,4 @@
-# Bug Bounty Swarm Operations
+# SwarmReview Operations
 
 This file is the canonical operations record for:
 - work orders and change log entries

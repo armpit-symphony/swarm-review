@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bug Bounty Swarm Orchestrator
+SwarmReview Orchestrator
 Coordinates recon, crawl, and enrichment agents
 
 Features:
@@ -259,7 +259,7 @@ class SwarmOrchestrator:
         recon = self.results.get("recon") or {}
         crawl = self.results.get("crawl") or {}
 
-        md = f"""# Bug Bounty Report - {self.raw_target}
+        md = f"""# SwarmReview Report - {self.raw_target}
 
 **Generated:** {self.results['timestamp']}
 **Target URL:** {self.target_url}
@@ -315,13 +315,13 @@ class SwarmOrchestrator:
                 md += f"- **{err.get('stage', 'unknown')}**: {err.get('error', 'Unknown error')}\n"
 
         md_path = write_markdown(self.output_dir, base_name, md)
-        html_body = f"<h1>Bug Bounty Report - {self.raw_target}</h1>" + md.replace("\n", "<br />")
-        html_path = write_html(self.output_dir, base_name, f"Bug Bounty Report - {self.raw_target}", html_body)
+        html_body = f"<h1>SwarmReview Report - {self.raw_target}</h1>" + md.replace("\n", "<br />")
+        html_path = write_html(self.output_dir, base_name, f"SwarmReview Report - {self.raw_target}", html_body)
         return md_path, html_path
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Bug Bounty Swarm Orchestrator")
+    parser = argparse.ArgumentParser(description="SwarmReview Orchestrator")
     parser.add_argument("target", help="Target domain or URL")
     parser.add_argument("--scheme", choices=["http", "https"], help="Force HTTP or HTTPS scheme")
     parser.add_argument("--force-http", action="store_true", help="Equivalent to --scheme http")

@@ -1,1 +1,1 @@
-"""Core utilities for Bug Bounty Swarm."""
+"""Core utilities for SwarmReview."""

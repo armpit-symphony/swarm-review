@@ -1,4 +1,4 @@
-# Bug Bounty Swarm Control Matrix
+# SwarmReview Control Matrix
 
 This matrix documents current enforcement controls for authorization, scope, consent, and evidence discipline.
 

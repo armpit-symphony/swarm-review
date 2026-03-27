@@ -1,5 +1,5 @@
 profiles:
-  # === Bug Bounty / Web App Scanning Profiles ===
+  # === Web App Scanning Profiles ===
   passive:
     active_tests: false
     max_pages: 10
